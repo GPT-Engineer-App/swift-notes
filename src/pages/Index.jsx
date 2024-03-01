@@ -1,6 +1,19 @@
 import React, { useState } from "react";
-import { Box, Button, Container, Flex, Heading, Input, List, ListItem, Text, Textarea, useColorMode, IconButton, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Container, Flex, Heading, Input, List, ListItem, Textarea, useColorMode, IconButton, useColorModeValue } from "@chakra-ui/react";
 import { FaSun, FaMoon, FaTrash, FaPen, FaPlus } from "react-icons/fa";
+
+// A basic markdown to HTML conversion function
+function markdownToHTML(markdown) {
+  if (!markdown) return "";
+  return markdown
+    .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+    .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+    .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+    .replace(/\*\*(.*)\*\*/gim, "<b>$1</b>")
+    .replace(/\*(.*)\*/gim, "<i>$1</i>")
+    .replace(/^\> (.*$)/gim, "<blockquote>$1</blockquote>")
+    .replace(/\n$/gim, "<br />");
+}
 
 const Index = () => {
   const [notes, setNotes] = useState([]);
@@ -88,7 +101,7 @@ const Index = () => {
                   <Heading mb={2} size="lg">
                     {title}
                   </Heading>
-                  <Text whiteSpace="pre-wrap">{content}</Text>
+                  <div dangerouslySetInnerHTML={{ __html: markdownToHTML(content) }} style={{ whiteSpace: "pre-wrap" }}></div>
                   <IconButton icon={<FaPen />} size="sm" colorScheme="yellow" variant="ghost" mt={2} onClick={() => setEditing(true)} />
                 </>
               ) : (
