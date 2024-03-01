@@ -32,6 +32,8 @@ const Index = () => {
     };
     setNotes([newNote, ...notes]);
     setActiveNote(newNote.id);
+    setTitle(newNote.title);
+    setContent(newNote.content);
     setEditing(true);
   };
 
